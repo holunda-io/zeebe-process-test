@@ -40,11 +40,11 @@ public class ZeebeProcessTestExtension
   public void afterEach(final ExtensionContext extensionContext) {
     RecordStreamSourceStore.reset();
 
-    final Object clientContent = getStore(extensionContext).get(KEY_ZEEBE_CLIENT);
+    final Object clientContent = getStore(extensionContext).remove(KEY_ZEEBE_CLIENT);
     final ZeebeClient client = (ZeebeClient) clientContent;
     client.close();
 
-    final Object engineContent = getStore(extensionContext).get(KEY_ZEEBE_ENGINE);
+    final Object engineContent = getStore(extensionContext).remove(KEY_ZEEBE_ENGINE);
     final InMemoryEngine engine = (InMemoryEngine) engineContent;
     engine.stop();
   }
