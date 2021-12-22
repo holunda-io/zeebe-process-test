@@ -72,7 +72,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class GrpcToLogStreamGateway extends GatewayGrpc.GatewayImplBase implements AutoCloseable {
 
-  private final LogStreamRecordWriter writer;
+  private LogStreamRecordWriter writer;
   private final ExecutorService executor = Executors.newSingleThreadExecutor();
   private final Map<Long, StreamObserver<?>> responseObserverMap = new HashMap<>();
   private final RecordMetadata recordMetadata = new RecordMetadata();
@@ -423,6 +423,10 @@ public class GrpcToLogStreamGateway extends GatewayGrpc.GatewayImplBase implemen
     } catch (InterruptedException ie) {
       // TODO handle
     }
+
+    writer = null;
+
+    responseObserverMap.clear();
   }
 
   private RecordMetadata prepareRecordMetadata() {
